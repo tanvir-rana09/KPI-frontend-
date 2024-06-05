@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Oswald&family=Rethink+Sans&family=Righteous&family=Sen&family=Sevillana&family=Whisper&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+    *{
+        @apply font-extendfont7
+    }
+    body{
+        @apply bg-slate-100
+    }
+}
+
+@layer components {
+    .hoverEffect {
+        @apply after:block after:w-full after:border-b-2 after:border-second after:scale-0 after:ease-in-out after:duration-300 hover:after:scale-100;
+    }
+    /* .profileChildren{
+        @apply absolute top-[43px] duration-500 -right-[20rem]
+    }
+    .profile:hover .profileChildren{
+        @apply opacity-100 -right-0
+    } */
+}
+
+.parent:hover .child {
+    transform: rotate(180deg);
+}
+.dropown {
+    top: -25rem;
+    opacity: 0;
+    transition: ease-in-out 0.5s;
+}
+.parent:hover .dropown {
+    display: flex;
+    top: 1.7rem;
+    opacity: 1;
+}
