@@ -10,7 +10,7 @@ import { FiEdit } from "react-icons/fi";
 import { RxCross1 } from "react-icons/rx";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const Profile = ({
     sidebar,
@@ -100,6 +100,7 @@ export const Profile = ({
             console.log(error);
         }
     };
+console.log(avatar);
 
     return (
         <div className="bg-white p-2 h-screen w-[20rem] shadow relative ">

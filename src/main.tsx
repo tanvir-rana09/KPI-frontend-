@@ -13,6 +13,7 @@ import {
     Signup,
     Administrators,
 } from "./pages/index.ts";
+import {Administrators as AdminComponents} from "./pages/admin/components/Administrators.tsx";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
@@ -73,7 +74,31 @@ const router = createBrowserRouter([
                 ),
                 children: [
                     {
-                        path: "/dashboard/:item",
+                        path: "/dashboard/administrators",
+                        element: (
+                            <ProtectedRoute>
+                                <AdminComponents/>
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/students",
+                        element: (
+                            <ProtectedRoute>
+                                <Aside />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/photos",
+                        element: (
+                            <ProtectedRoute>
+                                <Aside />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/notice",
                         element: (
                             <ProtectedRoute>
                                 <Aside />

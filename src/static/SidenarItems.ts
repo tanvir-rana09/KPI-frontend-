@@ -3,6 +3,7 @@ interface SidebarItem{
 }
 
 const SidebarItems:SidebarItem[]=[
+
 	{
 		name:'administrators'
 	},

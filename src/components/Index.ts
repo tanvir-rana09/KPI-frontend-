@@ -14,6 +14,7 @@ import FormHeading from './form/FormHeading';
 import Sidebar from './admin/Sidebar';
 import Aside from './admin/Aside';
 import Profile from './admin/Profile';
+import Administrators from './form/Administrators';
 
 export {
 	Input,
@@ -32,4 +33,5 @@ export {
 	Aside,
 	Profile,
 	HeaderProfile,
+	Administrators,
 }

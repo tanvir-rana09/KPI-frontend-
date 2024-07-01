@@ -71,7 +71,7 @@ const Navbar = () => {
                         to="/dashboard"><MdDashboardCustomize />Dashboard</Link>
                     ) : (
                         <button onClick={() => setSidebar(!sidebar)}>
-                            <div className="w-10 rounded-full overflow-hidden ring-[3px] ring-black ">
+                            <div className="w-10 aspect-square rounded-full overflow-hidden ring-[3px] ring-black ">
                                 <img
                                     className="w-full h-full object-cover"
                                     src={profile}

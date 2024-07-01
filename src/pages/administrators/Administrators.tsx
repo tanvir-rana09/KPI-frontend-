@@ -2,7 +2,9 @@
 
 const Administrators = () => {
   return (
-	<div>Administrators</div>
+	<div>
+
+  </div>
   )
 }
 
