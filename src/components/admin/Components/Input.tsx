@@ -1,14 +1,13 @@
-import { Control, Controller } from "react-hook-form";
-import { FormType } from "../types/FormType";
+import {  Controller } from "react-hook-form";
 import { InputHTMLAttributes, ReactNode, forwardRef } from "react";
-import { Search } from "./header/Header";
+
 
 interface propsType extends InputHTMLAttributes<HTMLInputElement> {
     name: "password" | "email" | "name"  | "search" | "number";
     type: "password" | "email" | "text" | "search" | "number";
     placeholder: string;
     className: string;
-    control: Control<FormType> | Control<Search>;
+    control: any;
     errors: ReactNode;
 }
 

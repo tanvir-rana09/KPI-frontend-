@@ -19,6 +19,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { AdminRoute, Auth, ProtectedRoute } from "./middleware/Auth.tsx";
 import { Aside } from "./components/Index.ts";
+import AdminStudents from "./pages/admin/components/AdminStudents.tsx";
 
 const router = createBrowserRouter([
     {
@@ -85,7 +86,7 @@ const router = createBrowserRouter([
                         path: "/dashboard/students",
                         element: (
                             <ProtectedRoute>
-                                <Aside />
+                                <AdminStudents />
                             </ProtectedRoute>
                         ),
                     },

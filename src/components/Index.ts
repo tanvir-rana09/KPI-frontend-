@@ -14,7 +14,7 @@ import FormHeading from './form/FormHeading';
 import Sidebar from './admin/Sidebar';
 import Aside from './admin/Aside';
 import Profile from './admin/Profile';
-import Administrators from './form/Administrators';
+import Administrators from './admin/Components/Administrators';
 
 export {
 	Input,

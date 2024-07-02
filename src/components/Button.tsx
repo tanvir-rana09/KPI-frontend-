@@ -10,7 +10,7 @@ const Button = ({
     children: ReactNode ;
 },props) => {
     return (
-        <button type={type} className={`flex items-center gap-1 bg-second text-white px-5 py-2 rounded-md shadow ${className} w-full `} {...props}>
+        <button type={type} className={`flex items-center gap-1 justify-center bg-second text-white px-5 py-2 rounded-md shadow ${className} w-full `} {...props}>
             {children}
         </button>
     );

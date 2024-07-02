@@ -93,13 +93,15 @@ const Login = () => {
                         name="password"
                         errors={errors.password?.message || error.password}
                     />
-                    <div className="w-full bg-second mt-5 flex justify-center items-center py-2">
+                    <div>
                         {loading ? (
-                            <Loading />
+                            <div className={`flex items-center justify-center bg-second text-white py-2 rounded-md shadow w-full mt-5`}>
+                                <Loading />
+                            </div>
                         ) : (
                             <div className="w-full">
                                 <Button
-                                    className=" text-white min-w-full cursor-pointer"
+                                    className=" text-white min-w-fullcursor-pointer mt-5"
                                     type="submit"
                                 >
                                     Submit

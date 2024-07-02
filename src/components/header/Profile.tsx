@@ -100,7 +100,7 @@ export const Profile = ({
             console.log(error);
         }
     };
-console.log(avatar);
+
 
     return (
         <div className="bg-white p-2 h-screen w-[20rem] shadow relative ">
