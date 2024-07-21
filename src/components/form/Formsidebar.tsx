@@ -11,7 +11,7 @@ const Formsidebar = ({ img }: { img: string }) => {
             initial="hidden"
             whileInView={"show"}
             viewport={{ once: true, amount: 0.1 }}
-			className="">
+			className="w-[20rem] sm:w-auto mx-auto">
                 <img src={img} alt="banner" />
             </motion.div>
             <div>

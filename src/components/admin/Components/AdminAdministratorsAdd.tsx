@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import ErrorState from "../../../types/administrators";
 import { Loading, Button } from "../../Index";
-const Administrators = () => {
+
+const AdminAdministratorAdd = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<ErrorState>({
         name: null,
@@ -400,4 +401,4 @@ const Administrators = () => {
     );
 };
 
-export default Administrators;
+export default AdminAdministratorAdd;

@@ -14,7 +14,11 @@ import FormHeading from './form/FormHeading';
 import Sidebar from './admin/Sidebar';
 import Aside from './admin/Aside';
 import Profile from './admin/Profile';
-import Administrators from './admin/Components/Administrators';
+import AdminAdministratorAdd from './admin/Components/AdminAdministratorsAdd';
+import Adminphotos from '../pages/admin/components/Adminphotos';
+import AdminphotoAdd from './admin/Components/AdminphotoAdd';
+import AdminNoticeAdd from './admin/Components/AdminNoticeAdd';
+import AdminStudentAdd from './admin/Components/AdminStudentAdd';
 
 export {
 	Input,
@@ -33,5 +37,9 @@ export {
 	Aside,
 	Profile,
 	HeaderProfile,
-	Administrators,
+	AdminAdministratorAdd,
+	Adminphotos,
+	AdminphotoAdd,
+	AdminNoticeAdd,
+	AdminStudentAdd
 }

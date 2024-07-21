@@ -7,7 +7,9 @@ import Signup from "./signup/Signup";
 import Students from "./students/Students";
 import Teachers from "./teachers/Teachers";
 import About from "./about/About";
-import Administrators from "./administrators/Administrators";
 import Semester from "./semester/Semester";
+import AdminNotice from "./admin/components/AdminNotice";
+import AdminStudents from "./admin/components/AdminStudents";
+import AdminAdministrators from "./admin/components/AdminAdministrators";
 
-export { Home, Dashboard, Login, Notice, Photos, Signup, Students, Teachers,About,Administrators,Semester };
+export { Home, Dashboard, Login, Notice, Photos, Signup, Students, Teachers,About,AdminAdministrators,Semester,AdminStudents,AdminNotice };

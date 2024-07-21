@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Button, Input, Navbar } from "../Index";
+import { Input, Navbar } from "../Index";
 import { GrSearch } from "react-icons/gr";
 
 export interface Search {
@@ -23,8 +23,8 @@ const Header = () => {
                 <div>
                     <Navbar />
                 </div>
-                <div className="flex items-center justify-between py-3 px-3 gap-5">
-                    <h1 className="font-semibold">
+                <div className="flex items-center justify-between py-3 px-3 gap-5 flex-col sm:flex-row">
+                    <h1 className="sm:font-semibold">
                         Kushtia Polytechnic Institute - CST
                     </h1>
                     <form

@@ -31,8 +31,10 @@ console.log(res);
     };
 
     return (
-        <div className="w-full grid place-content-center h-screen grid-cols-2 max-w-7xl mx-auto">
+        <div className="w-full grid place-content-center h-screen sm:grid-cols-2 max-w-7xl mx-auto">
+            <div className="mt-40 sm:mt-0">
             <Formsidebar img={png} />
+            </div>
             <div className=" rounded-sm flex flex-col gap-8 bg-white p-3">
                 <FormHeading/>
                 <h1 className="text-2xl border-b-2 w-20 pb-2">Signup</h1>
@@ -92,11 +94,11 @@ console.log(res);
                         errors={errors.password?.message}
                     />
 
-                    <div className="bg-second py-2 mt-5 flex justify-center">
+                    <div className="bg-second rounded-md mt-5 flex justify-center">
                         {loading ? (
                             <Loading />
                         ) : (
-                            <Button className=" text-white w-full" type="submit">
+                            <Button className=" text-white w-full bg-transparent shadow-none" type="submit">
                                 Submit
                             </Button>
                         )}

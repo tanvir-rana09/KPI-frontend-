@@ -8,6 +8,7 @@ import png from "../../images/college campus-pana.png";
 import { useDispatch } from "react-redux";
 import { setAuthStatus, setUserDetails } from "../../redux/projectSlice";
 import { ToastContainer, toast } from "react-toastify";
+
 const Login = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -48,8 +49,10 @@ const Login = () => {
     };
 
     return (
-        <div className="w-full grid place-content-center h-screen grid-cols-2 max-w-7xl mx-auto">
+        <div className="w-full grid place-content-center h-screen sm:grid-cols-2 max-w-7xl mx-auto">
+            <div className="mt-40 sm:mt-0">
             <Formsidebar img={png} />
+            </div>
             <div className=" rounded-sm flex flex-col gap-8 bg-white p-3">
                 <FormHeading />
                 <h1 className="text-2xl border-b-2 w-20 pb-2">Login</h1>

@@ -11,15 +11,16 @@ import {
     Students,
     About,
     Signup,
-    Administrators,
+    AdminStudents,
+    AdminNotice,
+    AdminAdministrators,
 } from "./pages/index.ts";
-import {Administrators as AdminComponents} from "./pages/admin/components/Administrators.tsx";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { AdminRoute, Auth, ProtectedRoute } from "./middleware/Auth.tsx";
-import { Aside } from "./components/Index.ts";
-import AdminStudents from "./pages/admin/components/AdminStudents.tsx";
+import { AdminphotoAdd, Adminphotos, AdminNoticeAdd, AdminStudentAdd, AdminAdministratorAdd } from "./components/Index.ts";
+
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/administrators/:employee",
-                element: <Administrators />,
+                element: <AdminAdministrators />,
             },
             {
                 path: "/login",
@@ -78,7 +79,15 @@ const router = createBrowserRouter([
                         path: "/dashboard/administrators",
                         element: (
                             <ProtectedRoute>
-                                <AdminComponents/>
+                                <AdminAdministrators />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/administrators/add",
+                        element: (
+                            <ProtectedRoute>
+                                <AdminAdministratorAdd />
                             </ProtectedRoute>
                         ),
                     },
@@ -91,18 +100,45 @@ const router = createBrowserRouter([
                         ),
                     },
                     {
+                        path: "/dashboard/students/add",
+                        element: (
+                            <ProtectedRoute>
+                                <AdminStudentAdd />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
                         path: "/dashboard/photos",
                         element: (
                             <ProtectedRoute>
-                                <Aside />
+                                <Adminphotos />
                             </ProtectedRoute>
                         ),
+                        children: [
+                            
+                        ],
                     },
                     {
                         path: "/dashboard/notice",
                         element: (
                             <ProtectedRoute>
-                                <Aside />
+                                <AdminNotice />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/notice/add",
+                        element: (
+                            <ProtectedRoute>
+                                <AdminNoticeAdd />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "/dashboard/photos/add",
+                        element: (
+                            <ProtectedRoute>
+                                <AdminphotoAdd />
                             </ProtectedRoute>
                         ),
                     },
