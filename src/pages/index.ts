@@ -11,5 +11,21 @@ import Semester from "./semester/Semester";
 import AdminNotice from "./admin/components/AdminNotice";
 import AdminStudents from "./admin/components/AdminStudents";
 import AdminAdministrators from "./admin/components/AdminAdministrators";
+import Administrators from "./administrators/Administrators";
 
-export { Home, Dashboard, Login, Notice, Photos, Signup, Students, Teachers,About,AdminAdministrators,Semester,AdminStudents,AdminNotice };
+export {
+    Home,
+    Dashboard,
+    Login,
+    Notice,
+    Photos,
+    Signup,
+    Students,
+    Teachers,
+    About,
+    AdminAdministrators,
+    Semester,
+    AdminStudents,
+    AdminNotice,
+	Administrators,
+};

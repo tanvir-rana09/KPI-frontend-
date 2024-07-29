@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import Loading from "../../Loading";
 import { useState } from "react";
 import apiCall from "../../../utils/ApiCall";
+import { toast, ToastContainer } from "react-toastify";
 
 
 const AdminNoticeAdd = () => {
@@ -25,6 +26,9 @@ const AdminNoticeAdd = () => {
             .finally(() => setLoading(false));
         if (res) {
             reset();
+            if (res.success) {
+                toast.success("Successfully add a notice ❤️");
+            }
         }
         console.log(res);
     };
@@ -114,7 +118,7 @@ const AdminNoticeAdd = () => {
                         </p>
                     )}
                 </div>
-                <div className="mt-6 flex items-center justify-end gap-x-6">
+                <div className="mt-6 flex items-center justify-end gap-x-6 mb-20 sm:mb-0">
                     <button
                         type="button"
                         className="text-sm font-semibold leading-6 text-gray-900"
@@ -129,6 +133,7 @@ const AdminNoticeAdd = () => {
                         )}
                     </div>
                 </div>
+                <ToastContainer />
             </form>
         </div>
     );

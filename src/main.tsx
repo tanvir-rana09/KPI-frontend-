@@ -14,13 +14,19 @@ import {
     AdminStudents,
     AdminNotice,
     AdminAdministrators,
+    Administrators,
 } from "./pages/index.ts";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { AdminRoute, Auth, ProtectedRoute } from "./middleware/Auth.tsx";
-import { AdminphotoAdd, Adminphotos, AdminNoticeAdd, AdminStudentAdd, AdminAdministratorAdd } from "./components/Index.ts";
-
+import {
+    AdminphotoAdd,
+    Adminphotos,
+    AdminNoticeAdd,
+    AdminStudentAdd,
+    AdminAdministratorAdd,
+} from "./components/Index.ts";
 
 const router = createBrowserRouter([
     {
@@ -49,7 +55,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/administrators/:employee",
-                element: <AdminAdministrators />,
+                element: <Administrators />,
             },
             {
                 path: "/login",
@@ -114,9 +120,7 @@ const router = createBrowserRouter([
                                 <Adminphotos />
                             </ProtectedRoute>
                         ),
-                        children: [
-                            
-                        ],
+                        children: [],
                     },
                     {
                         path: "/dashboard/notice",

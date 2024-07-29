@@ -1,16 +1,11 @@
-import { Link } from "react-router-dom"
-
+import Head from "./Head";
 
 const AdminAdministrators = () => {
-  return (
-	<div>
-            <div className="flex justify-between w-full border-b">
-                <h1>All Administrators</h1>
-                <Link to="/dashboard/administrators/add">Add</Link>
-            </div>
-           
-        </div>
-  )
-}
+    return (
+      <div>
+        <Head head="All Administrators" url="/dashboard/administrators/add"/>
+      </div>  
+    );
+};
 
-export default AdminAdministrators
+export default AdminAdministrators;

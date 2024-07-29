@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import Loading from "../../Loading";
+import { toast, ToastContainer } from "react-toastify";
 
 interface ErrorState {
     name: string | null;
@@ -61,6 +62,9 @@ const AdminStudentAdd: React.FC = () => {
             .finally(() => setLoading(false));
         if (res) {
             reset();
+            if (res.success) {
+                toast.success("Successfully add a student ❤️");
+            }
         }
         console.log(res);
     };
@@ -139,11 +143,7 @@ const AdminStudentAdd: React.FC = () => {
                                         ? "flex gap-2"
                                         : ""
                                 }
-                                 ${
-                                     field.type === "select"
-                                         ? "col-span-2"
-                                         : ""
-                                 }
+                               
                                 `}
                             >
                                 <label
@@ -152,7 +152,7 @@ const AdminStudentAdd: React.FC = () => {
                                 >
                                     {field.label}
                                 </label>
-                                <div className={`mt-2 w-full`}>
+                                <div className={`mt-2 `}>
                                     {field.type === "select" ? (
                                         <select
                                             defaultValue={field.name}
@@ -164,14 +164,18 @@ const AdminStudentAdd: React.FC = () => {
                                                 },
                                             })}
                                             id={field.name}
-                                            className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                            className="block px-3 min-w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 "
                                         >
                                             {field.options?.map((option) => (
                                                 <option
+                                                    className=" font-medium"
                                                     key={option}
                                                     value={option}
                                                 >
                                                     {option}
+                                                    {field.label == "Semester"
+                                                        ? " semester"
+                                                        : ""}
                                                 </option>
                                             ))}
                                         </select>
@@ -217,7 +221,7 @@ const AdminStudentAdd: React.FC = () => {
                 </div>
             </div>
 
-            <div className="mt-6 flex items-center justify-end gap-x-6">
+            <div className="mt-6 flex items-center justify-end gap-x-6 mb-20 sm:mb-0">
                 <button
                     type="button"
                     className="text-sm font-semibold leading-6 text-gray-900"
@@ -232,6 +236,7 @@ const AdminStudentAdd: React.FC = () => {
                     )}
                 </div>
             </div>
+            <ToastContainer />
         </form>
     );
 };

@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
+import Head from "./Head";
+
 
 const Adminphotos = () => {
     return (
         <div>
-            <div className="flex justify-between w-full border-b">
-                <h1>All Photo's</h1>
-                <Link to="/dashboard/photos/add">Add</Link>
-            </div>
-           
+            <Head
+                head="All photos"
+                url="/dashboard/photos/add"
+            />
         </div>
     );
 };

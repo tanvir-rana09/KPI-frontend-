@@ -14,4 +14,4 @@ interface ErrorState {
 }
 
 
-export default ErrorState,
+export default ErrorState

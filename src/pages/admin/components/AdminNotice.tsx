@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom"
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { Link } from "react-router-dom";
+import Head from "./Head";
 
 const AdminNotice = () => {
-  return (
-	<div>
-            <div className="flex justify-between w-full border-b">
-                <h1>All Notice</h1>
-                <Link to="/dashboard/photos/add">Add</Link>
-            </div>
-           
+    return (
+        <div>
+            <Head
+                head="All Notices"
+                url="/dashboard/notice/add"
+            />
         </div>
-  )
-}
+    );
+};
 
-export default AdminNotice
+export default AdminNotice;

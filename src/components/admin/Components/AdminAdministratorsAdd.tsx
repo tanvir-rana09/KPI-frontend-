@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import ErrorState from "../../../types/administrators";
-import { Loading, Button } from "../../Index";
+import { Loading } from "../../Index";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const AdminAdministratorAdd = () => {
     const [loading, setLoading] = useState(false);
@@ -45,12 +47,16 @@ const AdminAdministratorAdd = () => {
             .finally(() => setLoading(false));
         if (res) {
             reset();
+            if (res.success) {
+                toast.success("Successfully add a Administrator ❤️");
+            }
         }
-        console.log(res);
+        console.log(res.success);
     };
+
     return (
         <div>
-            <form className="bg-white p-5" onSubmit={handleSubmit(submit)}>
+            <form className=" p-5" onSubmit={handleSubmit(submit)}>
                 <div className="col-span-full">
                     <span>Profile image</span>
                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
@@ -381,7 +387,7 @@ const AdminAdministratorAdd = () => {
                     </div>
                 </div>
 
-                <div className="mt-6 flex items-center justify-end gap-x-6">
+                <div className="mt-6 flex items-center justify-end gap-x-6 mb-20 sm:mb-0">
                     <button
                         type="button"
                         className="text-sm font-semibold leading-6 text-gray-900"
@@ -390,12 +396,13 @@ const AdminAdministratorAdd = () => {
                     </button>
                     <div className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm  text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer">
                         {loading ? (
-                            <Loading  />
+                            <Loading />
                         ) : (
                             <button type="submit">Submit</button>
                         )}
                     </div>
                 </div>
+                <ToastContainer />
             </form>
         </div>
     );

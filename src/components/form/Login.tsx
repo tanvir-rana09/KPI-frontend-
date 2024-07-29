@@ -26,7 +26,7 @@ const Login = () => {
 
     const submit = async (data: FormType) => {
         setLoading(true);
-        const res = await apiCall("/api/v1/user/login", "post", data)
+        const res = await apiCall("/api/v1/user/login", "post", data) 
             .catch((err) => {
                 if (err?.response) {
                     setError((prevError) => ({

@@ -16,6 +16,7 @@ const Profile = () => {
     const [profile, setProfile] = useState(profilePlaceholder);
     const data = useSelector((state) => state.project.user);
     const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         setProfile(data?.image || profilePlaceholder);
     }, [data?.image]);
@@ -29,6 +30,8 @@ const Profile = () => {
     }, [avatar]);
 
     const submit = async () => {
+
+        
         if (!avatar) {
             console.log("No file selected");
             return;
@@ -59,7 +62,7 @@ const Profile = () => {
             console.log(error);
         }
     };
-    const fileHandle = (e) => {
+    const fileHandle = (e:any) => {
         console.log(e.target.files);
         setAvatar(e.target.files[0]);
     };
