@@ -40,6 +40,8 @@ const Profile = () => {
         const formData = new FormData();
         formData.append("image", avatar);
         setLoading(true)
+        console.log(formData);
+        
         try {
             const response = await apiCall(
                 "/api/v1/user/update-profile",

@@ -26,6 +26,7 @@ import {
     AdminNoticeAdd,
     AdminStudentAdd,
     AdminAdministratorAdd,
+    Profile,
 } from "./components/Index.ts";
 
 const router = createBrowserRouter([
@@ -82,6 +83,14 @@ const router = createBrowserRouter([
                 ),
                 children: [
                     {
+                        path: "/dashboard/profile",
+                        element: (
+                            <ProtectedRoute>
+                                <Profile/>
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
                         path: "/dashboard/administrators",
                         element: (
                             <ProtectedRoute>
@@ -120,7 +129,6 @@ const router = createBrowserRouter([
                                 <Adminphotos />
                             </ProtectedRoute>
                         ),
-                        children: [],
                     },
                     {
                         path: "/dashboard/notice",

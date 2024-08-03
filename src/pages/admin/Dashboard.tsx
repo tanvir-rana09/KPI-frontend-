@@ -1,17 +1,15 @@
-import { Outlet, useLocation } from "react-router-dom";
-import { Profile, Sidebar } from "../../components/Index";
+import { Outlet } from "react-router-dom";
+import { Sidebar } from "../../components/Index";
 
 const Dashboard = () => {
-    const location = useLocation();
-    const isDashboardRoute = location.pathname === "/dashboard";
 
     return (
         <div className="w-full max-w-7xl mx-auto flex">
-            <div>
+            <div >
                 <Sidebar />
             </div>
-            <aside className="grow">
-                {isDashboardRoute ? <Profile/> : <Outlet />}
+            <aside className="grow ml-[14.4rem] mt-[8rem] p-2">
+                 <Outlet />
             </aside>
         </div>
     );

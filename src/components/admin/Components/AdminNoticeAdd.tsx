@@ -4,7 +4,6 @@ import { useState } from "react";
 import apiCall from "../../../utils/ApiCall";
 import { toast, ToastContainer } from "react-toastify";
 
-
 const AdminNoticeAdd = () => {
     const {
         handleSubmit,
@@ -14,14 +13,18 @@ const AdminNoticeAdd = () => {
     } = useForm();
     const [loading, setLoading] = useState(false);
 
-
     const submit = async (data) => {
-        console.log(data);
+        data = { ...data, image: data.image[0]};
 
+        
         setLoading(true);
-        const res = await apiCall("/api/v1/photo/add", "post", data)
+        const res = await apiCall("/api/v1/notice/add", "post", data,{
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
             .catch((err) => {
-				console.log(err);
+                console.log(err);
             })
             .finally(() => setLoading(false));
         if (res) {
@@ -33,8 +36,6 @@ const AdminNoticeAdd = () => {
         console.log(res);
     };
 
-	console.log(errors);
-	
     return (
         <div>
             <h1>All Notice Photo's</h1>
@@ -45,15 +46,21 @@ const AdminNoticeAdd = () => {
                         <div className="text-center">
                             <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                 <label
-                                    htmlFor="image"
-                                    className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                    htmlFor="file"
+                                    className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                 >
                                     <span>Upload a file</span>
                                     <input
-                                        {...register("image")}
-                                        id="image"
                                         type="file"
-                                        className="sr-only"
+                                        {...register("image", {
+                                            required: {
+                                                message:
+                                                    "Image field is required",
+                                                value: true,
+                                            },
+                                        })}
+                                        id="file"
+                                        className="hidden cursor-pointer"
                                     />
                                 </label>
                                 <p className="pl-1">or drag and drop</p>
@@ -99,13 +106,13 @@ const AdminNoticeAdd = () => {
                     </label>
                     <div className="mt-2">
                         <textarea
-                            {...register("title", {
+                            {...register("description", {
                                 required: {
                                     message: "This field is required",
                                     value: true,
                                 },
                             })}
-							rows={10} 
+                            rows={10}
                             id="description"
                             autoComplete="description"
                             placeholder="Enter description"

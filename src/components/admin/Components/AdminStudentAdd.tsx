@@ -43,10 +43,13 @@ const AdminStudentAdd: React.FC = () => {
     } = useForm();
 
     const submit = async (data) => {
-        console.log(data);
-
+        data = {...data,image:data.image[0]}
         setLoading(true);
-        const res = await apiCall("/api/v1/student/add", "post", data)
+        const res = await apiCall("/api/v1/student/add", "post", data,{
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
             .catch((err) => {
                 setError((prevError) => {
                     const newErrors = { ...prevError };
@@ -76,7 +79,6 @@ const AdminStudentAdd: React.FC = () => {
         { name: "gmail", label: "Gmail", type: "email" },
         { name: "number", label: "Number", type: "number" },
         { name: "session", label: "Session", type: "text" },
-        { name: "captain", label: "Captain", type: "checkbox" },
         {
             name: "semester",
             label: "Semester",
@@ -96,6 +98,7 @@ const AdminStudentAdd: React.FC = () => {
             type: "select",
             options: ["Male", "Female"],
         },
+        { name: "captain", label: "Captain", type: "checkbox" },
     ];
 
     return (
@@ -106,15 +109,20 @@ const AdminStudentAdd: React.FC = () => {
                     <div className="text-center">
                         <div className="mt-4 flex text-sm leading-6 text-gray-600">
                             <label
-                                htmlFor="image"
-                                className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                htmlFor="file"
+                                className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                             >
                                 <span>Upload a file</span>
                                 <input
-                                    {...register("image")}
-                                    id="image"
                                     type="file"
-                                    className="sr-only"
+                                    {...register("image", {
+                                        required: {
+                                            message: "Image field is required",
+                                            value: true,
+                                        },
+                                    })}
+                                    id="file"
+                                    className="hidden cursor-pointer"
                                 />
                             </label>
                             <p className="pl-1">or drag and drop</p>
@@ -140,7 +148,7 @@ const AdminStudentAdd: React.FC = () => {
                                 key={field.name}
                                 className={`sm:col-span-3 ${
                                     field.type === "checkbox"
-                                        ? "flex gap-2"
+                                        ? "flex gap-2 items-center "
                                         : ""
                                 }
                                

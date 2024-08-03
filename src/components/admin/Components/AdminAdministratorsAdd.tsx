@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import ErrorState from "../../../types/administrators";
@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 const AdminAdministratorAdd = () => {
     const [loading, setLoading] = useState(false);
+    const [filename, setFilename] = useState("");
     const [error, setError] = useState<ErrorState>({
         name: null,
         position: null,
@@ -30,8 +31,14 @@ const AdminAdministratorAdd = () => {
     } = useForm();
 
     const submit = async (data) => {
+        data = { ...data, image: data.image[0] };
+
         setLoading(true);
-        const res = await apiCall("/api/v1/administrators/add", "post", data)
+        const res = await apiCall("/api/v1/administrators/add", "post", data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
             .catch((err) => {
                 setError((prevError) => {
                     const newErrors = { ...prevError };
@@ -46,13 +53,20 @@ const AdminAdministratorAdd = () => {
             })
             .finally(() => setLoading(false));
         if (res) {
+            setFilename("");
             reset();
             if (res.success) {
-                toast.success("Successfully add a Administrator ❤️");
+                toast.success("Successfully added an Administrator ❤️");
             }
         }
-        console.log(res.success);
+        console.log(res);
     };
+
+    useEffect(() => {
+        if (filename.length > 50) { 
+            setFilename(filename.slice(0, 15) + "....");
+        } else setFilename(filename);
+    }, [filename]);
 
     return (
         <div>
@@ -61,17 +75,32 @@ const AdminAdministratorAdd = () => {
                     <span>Profile image</span>
                     <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
                         <div className="text-center">
-                            <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                            <div className="mt-4 flex text-sm leading-6 text-gray-600 flex-col sm:flex-row">
                                 <label
-                                    htmlFor="image"
-                                    className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                                    htmlFor="file"
+                                    className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500 "
                                 >
-                                    <span>Upload a file</span>
+                                    {filename ? (
+                                        <p>{filename}</p>
+                                    ) : (
+                                        <span>Upload a file</span>
+                                    )}
                                     <input
-                                        {...register("image")}
-                                        id="image"
                                         type="file"
-                                        className="sr-only"
+                                        {...register("image", {
+                                            // required: {
+                                            //     message:
+                                            //         "Image field is required",
+                                            //     value: true,
+                                            // },
+                                        })}
+                                        id="file"
+                                        className="hidden cursor-pointer"
+                                        onChange={(e) => {
+                                            setFilename(
+                                                e.target.files[0]?.name
+                                            );
+                                        }}
                                     />
                                 </label>
                                 <p className="pl-1">or drag and drop</p>
@@ -114,7 +143,11 @@ const AdminAdministratorAdd = () => {
                                         placeholder="Enter full name"
                                         className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
                                     />
+                                    {
+                                        errors.name?.message&& <p>{errors.name?.message}</p>
+                                    }
                                 </div>
+
                             </div>
 
                             <div className="sm:col-span-3">
@@ -288,7 +321,7 @@ const AdminAdministratorAdd = () => {
                                         className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                     >
                                         <option>Male</option>
-                                        <option>Famale</option>
+                                        <option>Female</option>
                                         {/* <option>Mexico</option> */}
                                     </select>
                                 </div>
@@ -321,7 +354,7 @@ const AdminAdministratorAdd = () => {
                                         <option>Mechanical</option>
                                         <option>Power</option>
                                         <option>Electrical</option>
-                                        <option>Electrpnics</option>
+                                        <option>Electronics</option>
                                     </select>
                                 </div>
                             </div>
@@ -377,8 +410,8 @@ const AdminAdministratorAdd = () => {
                                         autoComplete="shift-name"
                                         className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                     >
-                                        <option>1 st</option>
-                                        <option>2 nd</option>
+                                        <option>1st</option>
+                                        <option>2nd</option>
                                         {/* <option>Mexico</option> */}
                                     </select>
                                 </div>
@@ -389,10 +422,11 @@ const AdminAdministratorAdd = () => {
 
                 <div className="mt-6 flex items-center justify-end gap-x-6 mb-20 sm:mb-0">
                     <button
+                        onClick={() => reset()}
                         type="button"
                         className="text-sm font-semibold leading-6 text-gray-900"
                     >
-                        Cancel
+                        Clear
                     </button>
                     <div className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm  text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer">
                         {loading ? (

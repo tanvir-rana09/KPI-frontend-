@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Input, Navbar } from "../Index";
 import { GrSearch } from "react-icons/gr";
+import { useEffect, useState } from "react";
 
 export interface Search {
     search: string;
@@ -17,8 +18,21 @@ const Header = () => {
     const submit = (data: Search) => {
         console.log(data);
     };
+    const [fixedNav, setFixedNav] = useState(false)
+
+    useEffect(() => {
+		window.addEventListener('scroll', () => {
+			if (window.scrollY > 300) {
+				setFixedNav(true)
+			} else {
+				setFixedNav(false)
+			}
+		})
+	}, [])
+    
     return (
-        <div className="border-b bg-white">
+        
+        <div className={`border-b bg-white z-50 fixed right-0 left-0 ${fixedNav ? ' top-0 ' : 'top-0'}`}>
             <div className="w-full max-w-7xl mx-auto">
                 <div>
                     <Navbar />

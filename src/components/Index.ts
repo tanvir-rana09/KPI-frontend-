@@ -19,6 +19,7 @@ import Adminphotos from '../pages/admin/components/Adminphotos';
 import AdminphotoAdd from './admin/Components/AdminphotoAdd';
 import AdminNoticeAdd from './admin/Components/AdminNoticeAdd';
 import AdminStudentAdd from './admin/Components/AdminStudentAdd';
+import Logout from './Logout';
 
 export {
 	Input,
@@ -41,5 +42,6 @@ export {
 	Adminphotos,
 	AdminphotoAdd,
 	AdminNoticeAdd,
-	AdminStudentAdd
+	AdminStudentAdd,
+	Logout
 }

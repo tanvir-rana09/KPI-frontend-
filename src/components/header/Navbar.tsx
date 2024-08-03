@@ -34,7 +34,7 @@ const Navbar = () => {
                         user.isAdmin ? (
                             <Link
                                 className="flex items-center gap-1 bg-second text-white px-4 py-1.5 rounded-md shadow"
-                                to="/dashboard"
+                                to="/dashboard/profile"
                             >
                                 <MdDashboardCustomize />
                                 Dashboard
