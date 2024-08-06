@@ -1,0 +1,105 @@
+import { FormField } from "./FormFieldType";
+
+export const StudentsFormField: FormField[] = [
+    {
+        name: "name",
+        label: "Full Name",
+        type: "text",
+        autoComplete: "given-name",
+        placeholder: "Enter full name",
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "roll",
+        label: "Roll",
+        type: "number",
+        autoComplete: "roll",
+        placeholder: "Enter roll number",
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "registration",
+        label: "Registration",
+        type: "number",
+        autoComplete: "registration",
+        placeholder: "Enter registration number",
+        validation: { required:false},
+    },
+    {
+        name: "gmail",
+        label: "Gmail",
+        type: "email",
+        autoComplete: "email",
+        placeholder: "Enter your Gmail address",
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "number",
+        label: "Number",
+        type: "number",
+        autoComplete: "tel",
+        placeholder: "Enter your phone number",
+        validation: {
+            required: "This field is required",
+            minLength: { value: 10, message: "Minimum number length is 10" },
+        },
+    },
+    {
+        name: "session",
+        label: "Session",
+        type: "text",
+        autoComplete: "session",
+        placeholder: "Enter session",
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "semester",
+        label: "Semester",
+        type: "select",
+        autoComplete: "semester",
+        options: Array.from({ length: 8 }, (_, i) => ({
+            value: (i + 1).toString(),
+            label: `${i + 1} semester`,
+        })),
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "shift",
+        label: "Shift",
+        type: "select",
+        autoComplete: "shift",
+        options: [
+            { value: "1st", label: "1st" },
+            { value: "2nd", label: "2nd" },
+        ],
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "group",
+        label: "Group",
+        type: "select",
+        autoComplete: "group",
+        options: [
+            { value: "A", label: "A" },
+            { value: "B", label: "B" },
+        ],
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "gender",
+        label: "Gender",
+        type: "select",
+        autoComplete: "gender",
+        options: [
+            { value: "Male", label: "Male" },
+            { value: "Female", label: "Female" },
+        ],
+        validation: { required: "This field is required" },
+    },
+    {
+        name: "captain",
+        label: "Captain",
+        type: "checkbox",
+        autoComplete: "captain",
+    },
+];

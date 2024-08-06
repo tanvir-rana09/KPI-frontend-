@@ -8,7 +8,7 @@ const Dashboard = () => {
             <div >
                 <Sidebar />
             </div>
-            <aside className="grow ml-[14.4rem] mt-[8rem] p-2">
+            <aside className="grow ml-[3rem] xl:ml-0 p-2 overflowAuto overflow-x-auto">
                  <Outlet />
             </aside>
         </div>

@@ -1,16 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Oswald&family=Rethink+Sans&family=Righteous&family=Sen&family=Sevillana&family=Whisper&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Oswald&family=Rethink+Sans&family=Righteous&family=Sen&family=Sevillana&family=Whisper&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
-    *{
-        @apply font-extendfont7
+@layer base {
+    * {
+        @apply font-extendfont7;
     }
-    body{
-        @apply bg-slate-100
+    overflowAuto {
+        @apply bg-slate-100;
     }
 }
 
@@ -18,13 +17,75 @@
     .hoverEffect {
         @apply after:block after:w-full after:border-b-2 after:border-second after:scale-0 after:ease-in-out after:duration-300 hover:after:scale-100;
     }
-    /* .profileChildren{
-        @apply absolute top-[43px] duration-500 -right-[20rem]
-    }
-    .profile:hover .profileChildren{
-        @apply opacity-100 -right-0
-    } */
 }
+
+/* Custom scrollbar styling for .overflowAuto class */
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+.overflowAuto::-webkit-scrollbar {
+    width: 8px; /* Width of the vertical scrollbar */
+    height: 8px; /* Height of the horizontal scrollbar */
+}
+
+.overflowAuto::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Background of the scrollbar track */
+}
+
+.overflowAuto::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+}
+
+.overflowAuto::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar thumb when hovered */
+}
+
+/* For Firefox */
+.overflowAuto {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll on the overflowAuto */
+}
+
+
+
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    height: 8px; /* Height of the scrollbar (for horizontal scrollbars) */
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Background of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded corners of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #575757; /* Color of the scrollbar thumb when hovered */
+}
+
+/* For Firefox */
+.overflowAuto {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+}
+
+
+
+.ant-table-column-title,
+.ant-table-cell {
+    text-align: center;
+}
+
 
 .parent:hover .child {
     transform: rotate(180deg);

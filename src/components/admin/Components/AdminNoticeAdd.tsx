@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Loading from "../../Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import apiCall from "../../../utils/ApiCall";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -12,13 +12,13 @@ const AdminNoticeAdd = () => {
         formState: { errors },
     } = useForm();
     const [loading, setLoading] = useState(false);
+    const [file,setFile] = useState<File | null>()
 
-    const submit = async (data) => {
-        data = { ...data, image: data.image[0]};
+    const submit = async (data:any) => {
+        data = { ...data, image: file };
 
-        
         setLoading(true);
-        const res = await apiCall("/api/v1/notice/add", "post", data,{
+        const res = await apiCall("/api/v1/notice/add", "post", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -36,6 +36,23 @@ const AdminNoticeAdd = () => {
         console.log(res);
     };
 
+    const handleFilename = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const files = e.target.files;
+        if (files && files.length > 0) {
+          setFilename(files[0].name);
+          setFile(files[0])
+        } else {
+          setFilename("");
+        }
+    }
+
+    const [filename, setFilename] = useState("");
+    useEffect(() => {
+        if (filename.length > 25) {
+            setFilename(filename.slice(0, 25) + "....");
+        }
+    }, [filename]);
+
     return (
         <div>
             <h1>All Notice Photo's</h1>
@@ -49,18 +66,16 @@ const AdminNoticeAdd = () => {
                                     htmlFor="file"
                                     className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                 >
-                                    <span>Upload a file</span>
+                                    {filename ? (
+                                        <p>{filename}</p>
+                                    ) : (
+                                        <span>Upload a file</span>
+                                    )}
                                     <input
                                         type="file"
-                                        {...register("image", {
-                                            required: {
-                                                message:
-                                                    "Image field is required",
-                                                value: true,
-                                            },
-                                        })}
                                         id="file"
                                         className="hidden cursor-pointer"
+                                        onChange={handleFilename}
                                     />
                                 </label>
                                 <p className="pl-1">or drag and drop</p>
@@ -93,7 +108,7 @@ const AdminNoticeAdd = () => {
                             className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
                         />
                     </div>
-                    {errors.title?.message && (
+                    {errors.title?.message && errors.title?.message==='string' &&(
                         <p className="text-red-500">{errors.title?.message}*</p>
                     )}
                 </div>
@@ -119,7 +134,7 @@ const AdminNoticeAdd = () => {
                             className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
                         />
                     </div>
-                    {errors.description?.message && (
+                    {errors.description?.message && errors.description?.message==='string' &&(
                         <p className="text-red-500">
                             {errors.description?.message}*
                         </p>

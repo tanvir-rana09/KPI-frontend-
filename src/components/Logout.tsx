@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 interface LogoutProps {
     setSidebar?: (value: boolean) => void;
+    className?:string
+    sidebar?:boolean
 }
 
-const Logout = ({ setSidebar }: LogoutProps) => {
+const Logout = ({ setSidebar,className,sidebar }: LogoutProps) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
@@ -43,10 +45,12 @@ const Logout = ({ setSidebar }: LogoutProps) => {
         <>
             <button
                 onClick={logout}
-                className="flex items-center justify-center bg-second text-white py-2 gap-2 absolute bottom-0 right-0 left-0 mx-auto"
+                className={`flex items-center justify-center bg-second text-white py-2 gap-2 absolute bottom-0 right-0 left-0 mx-auto" `}
             >
-                Logout
-                <RiLogoutCircleRLine />
+                <span className={`${className}`}>{
+                    sidebar ? "Logout" : ""
+                    }</span>
+                <span><RiLogoutCircleRLine /></span>
             </button>
             <ToastContainer />
         </>

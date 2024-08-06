@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Loading from "../../Loading";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import apiCall from "../../../utils/ApiCall";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -18,15 +18,17 @@ const AdminphotoAdd = () => {
         formState: { errors },
     } = useForm();
     const [loading, setLoading] = useState(false);
-
+    const [file,setFile] = useState<File | null>()
     const submit = async (data: FormDataType) => {
-        if (!data.image[0]) {
+        console.log(data);
+        
+        if (!file) {
             console.log("No file selected");
             return;
         }
 
         const formData = new FormData();
-        formData.append("image", data.image[0]);
+        formData.append("image", file);
         formData.append("title", data.title);
         formData.append("description", data.description);
 
@@ -49,6 +51,23 @@ const AdminphotoAdd = () => {
         console.log(res);
     };
 
+    const handleFilename = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            setFilename(files[0].name);
+            setFile(files[0])
+        } else {
+            setFilename("");
+        }
+    };
+
+    const [filename, setFilename] = useState("");
+    useEffect(() => {
+        if (filename.length > 25) {
+            setFilename(filename.slice(0, 25) + "....");
+        }
+    }, [filename]);
+
     return (
         <div>
             <form onSubmit={handleSubmit(submit)}>
@@ -62,18 +81,16 @@ const AdminphotoAdd = () => {
                                     htmlFor="file"
                                     className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                 >
-                                    <span>Upload a file</span>
+                                    {filename ? (
+                                        <p>{filename}</p>
+                                    ) : (
+                                        <span>Upload a file</span>
+                                    )}
                                     <input
                                         type="file"
-                                        {...register("image", {
-                                            required: {
-                                                message:
-                                                    "Image field is required",
-                                                value: true,
-                                            },
-                                        })}
                                         id="file"
                                         className="hidden cursor-pointer"
+                                        onChange={handleFilename}
                                     />
                                 </label>
                                 <p className="pl-1">or drag and drop</p>
@@ -88,7 +105,7 @@ const AdminphotoAdd = () => {
                             <p className="text-red-500">
                                 {errors.image.message}*
                             </p>
-                    )}
+                        )}
                 </div>
                 <div className="sm:col-span-3">
                     <label

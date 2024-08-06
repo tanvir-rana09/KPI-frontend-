@@ -32,7 +32,7 @@ const Header = () => {
     
     return (
         
-        <div className={`border-b bg-white z-50 fixed right-0 left-0 ${fixedNav ? ' top-0 ' : 'top-0'}`}>
+        <div className={`border-b bg-white z-50 ease-in-out duration-500 ${fixedNav ? ' fixed right-0 left-0 top-0 ' : '-top-[0rem] relative'}`}>
             <div className="w-full max-w-7xl mx-auto">
                 <div>
                     <Navbar />

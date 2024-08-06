@@ -1,4 +1,5 @@
-interface ErrorState {
+interface StudentsType {
+    id?: string | null ;
     name: string | null;
     roll: string | null;
     registration: string | null;
@@ -11,7 +12,8 @@ interface ErrorState {
     gender: string | null;
     session: string | null;
     password?: string | null;
+    image?:string | null;
 }
 
 
-export default ErrorState
+export default StudentsType

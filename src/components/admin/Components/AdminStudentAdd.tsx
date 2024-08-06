@@ -1,108 +1,62 @@
-import React, { useState } from "react";
+import { StudentsFormField } from "../../../static/StudentsFormField";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import Loading from "../../Loading";
 import { toast, ToastContainer } from "react-toastify";
 
-interface ErrorState {
-    name: string | null;
-    roll: string | null;
-    registration: string | null;
-    semester: string | null;
-    shift: string | null;
-    group: string | null;
-    captain: string | null;
-    gmail: string | null;
-    number: string | null;
-    gender: string | null;
-    session: string | null;
-    [key: string]: string | null; // To allow dynamic access
-}
-
 const AdminStudentAdd: React.FC = () => {
     const [loading, setLoading] = useState(false);
-
-    const [error, setError] = useState<ErrorState>({
-        name: null,
-        roll: null,
-        registration: null,
-        semester: null,
-        shift: null,
-        group: null,
-        captain: null,
-        gmail: null,
-        number: null,
-        gender: null,
-        session: null,
-    });
     const {
         handleSubmit,
         register,
         reset,
         formState: { errors },
     } = useForm();
+    const [file,setFile] = useState<File | null>()
 
-    const submit = async (data) => {
-        data = {...data,image:data.image[0]}
+    const submit = async (data: any) => {
+        data = { ...data, image: file };
+
         setLoading(true);
-        const res = await apiCall("/api/v1/student/add", "post", data,{
+        const res = await apiCall("/api/v1/students/add", "post", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         })
             .catch((err) => {
-                setError((prevError) => {
-                    const newErrors = { ...prevError };
-                    if (err?.response?.data) {
-                        Object.keys(newErrors).forEach((key) => {
-                            newErrors[key as keyof ErrorState] =
-                                err.response.data[key];
-                        });
-                    }
-                    return newErrors;
-                });
+                console.log(err);
             })
             .finally(() => setLoading(false));
+
         if (res) {
             reset();
             if (res.success) {
-                toast.success("Successfully add a student ❤️");
+                toast.success("Successfully added a student ❤️");
             }
         }
         console.log(res);
     };
 
-    const formFields = [
-        { name: "name", label: "Full Name", type: "text" },
-        { name: "roll", label: "Roll", type: "text" },
-        { name: "registration", label: "Registration", type: "text" },
-        { name: "gmail", label: "Gmail", type: "email" },
-        { name: "number", label: "Number", type: "number" },
-        { name: "session", label: "Session", type: "text" },
-        {
-            name: "semester",
-            label: "Semester",
-            type: "select",
-            options: Array.from({ length: 8 }, (_, i) => (i + 1).toString()),
-        },
-        {
-            name: "shift",
-            label: "Shift",
-            type: "select",
-            options: ["1st", "2nd"],
-        },
-        { name: "group", label: "Group", type: "select", options: ["A", "B"] },
-        {
-            name: "gender",
-            label: "Gender",
-            type: "select",
-            options: ["Male", "Female"],
-        },
-        { name: "captain", label: "Captain", type: "checkbox" },
-    ];
+    const handleFilename = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const files = e.target.files;
+        if (files && files.length > 0) {
+          setFilename(files[0].name);
+          setFile(files[0])
+        } else {
+          setFilename("");
+        }
+    }
+
+    const [filename, setFilename] = useState("");
+    useEffect(() => {
+        if (filename.length > 25) {
+            setFilename(filename.slice(0, 25) + "....");
+        }
+    }, [filename]);
 
     return (
-        <form className=" p-5" onSubmit={handleSubmit(submit)}>
+        <form className="p-5" onSubmit={handleSubmit(submit)}>
             <div className="col-span-full">
                 <span>Profile image</span>
                 <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
@@ -112,18 +66,17 @@ const AdminStudentAdd: React.FC = () => {
                                 htmlFor="file"
                                 className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                             >
-                                <span>Upload a file</span>
-                                <input
-                                    type="file"
-                                    {...register("image", {
-                                        required: {
-                                            message: "Image field is required",
-                                            value: true,
-                                        },
-                                    })}
-                                    id="file"
-                                    className="hidden cursor-pointer"
-                                />
+                                 {filename ? (
+                                        <p>{filename}</p>
+                                    ) : (
+                                        <span>Upload a file</span>
+                                    )}
+                                    <input
+                                        type="file"
+                                        id="file"
+                                        className="hidden cursor-pointer"
+                                        onChange={handleFilename}
+                                        />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                         </div>
@@ -139,20 +92,18 @@ const AdminStudentAdd: React.FC = () => {
                         Information
                     </h2>
                     <p className="mt-1 text-sm leading-6 text-gray-600">
-                        Add details to add a new administrator
+                        Add details to add a new student
                     </p>
 
                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        {formFields.map((field) => (
+                        {StudentsFormField.map((field) => (
                             <div
                                 key={field.name}
                                 className={`sm:col-span-3 ${
                                     field.type === "checkbox"
                                         ? "flex gap-2 items-center "
                                         : ""
-                                }
-                               
-                                `}
+                                }`}
                             >
                                 <label
                                     htmlFor={field.name}
@@ -160,67 +111,56 @@ const AdminStudentAdd: React.FC = () => {
                                 >
                                     {field.label}
                                 </label>
-                                <div className={`mt-2 `}>
+                                <div className={`mt-2`}>
                                     {field.type === "select" ? (
                                         <select
-                                            defaultValue={field.name}
+                                            defaultValue=""
                                             {...register(field.name, {
-                                                required: {
-                                                    message:
-                                                        "This field is required",
-                                                    value: true,
-                                                },
+                                                ...field.validation,
                                             })}
                                             id={field.name}
-                                            className="block px-3 min-w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 "
+                                            autoComplete={field.autoComplete}
+                                            className="block px-3 min-w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                         >
                                             {field.options?.map((option) => (
                                                 <option
-                                                    className=" font-medium"
-                                                    key={option}
-                                                    value={option}
+                                                    className="font-medium"
+                                                    key={option.value}
+                                                    value={option.value}
                                                 >
-                                                    {option}
-                                                    {field.label == "Semester"
-                                                        ? " semester"
-                                                        : ""}
+                                                    {option.label}
                                                 </option>
                                             ))}
                                         </select>
                                     ) : field.type === "checkbox" ? (
                                         <input
-                                            {...register(field.name)}
+                                            {...register(field.name, {
+                                                ...field.validation,
+                                            })}
                                             type="checkbox"
                                             id={field.name}
-                                            className="px-3 block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                            autoComplete={field.autoComplete}
+                                            className="block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         />
                                     ) : (
-                                        <div>
-                                            <input
-                                                {...register(field.name, {
-                                                    required: {
-                                                        message:
-                                                            "This field is required",
-                                                        value: true,
-                                                    },
-                                                })}
-                                                type={field.type}
-                                                id={field.name}
-                                                placeholder={`Enter ${field.label.toLowerCase()}`}
-                                                className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                            />
+                                        <input
+                                            {...register(field.name, {
+                                                ...field.validation,
+                                            })}
+                                            type={field.type}
+                                            id={field.name}
+                                            autoComplete={field.autoComplete}
+                                            placeholder={field.placeholder}
+                                            className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        />
+                                    )}
+                                    {errors[field.name]?.message && (
+                                        <p className="text-red-500 text-sm mt-1">
                                             {
-                                                <div>
-                                                    {field.type === "input" ? (
-                                                        <p>
-                                                            {error[field.name]}
-                                                        </p>
-                                                    ) : (
-                                                        ""
-                                                    )}
-                                                </div>
+                                                errors[field.name]
+                                                    ?.message as string
                                             }
-                                        </div>
+                                        </p>
                                     )}
                                 </div>
                             </div>
@@ -228,7 +168,6 @@ const AdminStudentAdd: React.FC = () => {
                     </div>
                 </div>
             </div>
-
             <div className="mt-6 flex items-center justify-end gap-x-6 mb-20 sm:mb-0">
                 <button
                     type="button"
@@ -236,7 +175,7 @@ const AdminStudentAdd: React.FC = () => {
                 >
                     Cancel
                 </button>
-                <div className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm  text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer">
+                <div className="rounded-md bg-indigo-600 px-10 py-2.5 text-sm text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer">
                     {loading ? (
                         <Loading />
                     ) : (

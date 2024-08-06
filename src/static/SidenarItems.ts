@@ -1,5 +1,8 @@
 import { IconType } from 'react-icons';
-import { FaUser, FaUsers, FaCamera, FaBell, FaBars, FaUserCog } from 'react-icons/fa';
+import { FaUser, FaUsers, FaCamera, FaUserCog } from 'react-icons/fa';
+import { GrDocumentNotes } from 'react-icons/gr';
+import { PiStudentBold } from 'react-icons/pi';
+import { TfiMenuAlt } from 'react-icons/tfi';
 
 interface SidebarItem {
   id: number;
@@ -21,7 +24,7 @@ const SidebarItems: SidebarItem[] = [
   {
     id: 3,
     name: 'Students',
-    icon: FaUsers
+    icon: PiStudentBold 
   },
   {
     id: 4,
@@ -31,12 +34,12 @@ const SidebarItems: SidebarItem[] = [
   {
     id: 5,
     name: 'Notice',
-    icon: FaBell
+    icon: GrDocumentNotes 
   },
   {
     id: 6,
     name: 'Menu',
-    icon: FaBars
+    icon: TfiMenuAlt
   },
   {
     id: 7,

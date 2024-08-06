@@ -1,6 +1,5 @@
 import Head from "./Head";
 
-
 const Adminphotos = () => {
     return (
         <div>

@@ -1,5 +1,3 @@
-import { IoIosAddCircleOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
 import Head from "./Head";
 
 const AdminNotice = () => {
