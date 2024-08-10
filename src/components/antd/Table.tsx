@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import type { InputRef, TableColumnsType, TableColumnType } from "antd";
 import { Button, Input, Space, Table } from "antd";
@@ -7,18 +7,32 @@ import Highlighter from "react-highlight-words";
 import profilePlaceholder from "../../images/profile.jpg";
 import Student from "../../types/StudentsDetailsType";
 import AdministratorsType from "../../types/administrators";
+import { useSelector } from "react-redux";
+import { selectStudentStatus } from "../../pages/admin/components/redux/ReduxSlice";
 
+interface AntTableColumn {
+    name: string;
+    search: boolean;
+}
 const AntTable = ({
     data,
     antColumns,
 }: {
-    antColumns: Array<string>;
+    antColumns: AntTableColumn[];
     data: Student[] | AdministratorsType[];
 }) => {
     type DataIndex = keyof Student | keyof AdministratorsType;
     const [searchText, setSearchText] = useState<string | null>("");
     const [searchedColumn, setSearchedColumn] = useState<string | null>("");
     const searchInput = useRef<InputRef>(null);
+    const [status, setStatus] = useState<boolean>(false);
+    const statusRedux = useSelector(selectStudentStatus);
+
+useEffect(()=>{
+    if (statusRedux === "loading") {
+        setStatus(true);
+    } else setStatus(false);
+},[statusRedux])
 
     const handleSearch = (
         selectedKeys: string[],
@@ -164,33 +178,52 @@ const AntTable = ({
     // ];
     antColumns?.forEach((column) => {
         columns.push({
-            title: column,
-            dataIndex: column,
-            key: column,
+            title: column.name,
+            dataIndex: column.name,
+            key: column.name,
             width: 20,
-            ...getColumnSearchProps(column as DataIndex),
+            ...(column.search
+                ? getColumnSearchProps(column.name as DataIndex)
+                : null),
             render: (text, record, rowindex) => {
-                if (column === "image" && record.image) {
+                if (column.name === "image") {
                     const imgSrc =
                         (record as Student).image ||
                         (record as AdministratorsType).image;
-                        const finalImgSrc = imgSrc && imgSrc.trim() !== "" ? imgSrc : profilePlaceholder;
+                    const finalsrc = imgSrc?.toString() || profilePlaceholder;
+
                     return (
                         <img
-                            src={finalImgSrc || profilePlaceholder}
+                            src={finalsrc}
                             alt={record.name || "Image"}
-                            style={{ width: "80%" }}
-                            className="rounded-full"
+                            style={{ width: "100%" }}
+                            className="rounded-full aspect-square object-cover"
                         />
                     );
                 } else if (
-                    column === "captain" &&
+                    column.name === "captain" &&
                     (record as Student).captain
                 ) {
                     const isCaptain = (record as Student).captain;
                     return isCaptain ? "Yes" : "No";
-                } else if (column === "id") {
+                } else if (column.name === "id") {
                     return rowindex + 1;
+                } else if (
+                    (record as AdministratorsType).joiningDate &&
+                    column.name === "joiningDate"
+                ) {
+                    const joiningDate = (record as AdministratorsType)
+                        .joiningDate;
+                    if (joiningDate) {
+                        const date = new Date(joiningDate);
+                        const formattedDate = date.toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        });
+                        return formattedDate;
+                    }
+                    return "N/A";
                 } else {
                     return text;
                 }
@@ -199,7 +232,13 @@ const AntTable = ({
     });
     return (
         <div className="overflow-x-auto">
-            <Table columns={columns} dataSource={data} scroll={{ x: 800 }} />
+            <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ x: 800 }}
+                className="text-center"
+                loading={status}
+            />
         </div>
     );
 };

@@ -4,7 +4,7 @@ export default interface AdministratorsType {
     position: string | null;
     shift: string | null;
     address: string | null;
-    image?: string | null;
+    image?: string | null | File;
     department: string | null;
     education: string | null;
     joiningDate: string | null;

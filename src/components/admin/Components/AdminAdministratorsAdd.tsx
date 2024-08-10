@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import apiCall from "../../../utils/ApiCall";
 import { Loading } from "../../Index";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
 import { AdministratorsFormField } from "../../../static/AdministratorsFormField";
+import AdministratorsType from "../../../types/administrators";
 
 const AdminAdministratorAdd = () => {
     const [loading, setLoading] = useState(false);
@@ -16,10 +17,11 @@ const AdminAdministratorAdd = () => {
         reset,
         formState: { errors },
     } = useForm();
-    const [file,setFile] = useState<File | null>()
-    const submit = async (data: any) => {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [file, setFile] = useState<File | null>();
 
-        data = { ...data, image: file };
+    const submit = async (data: AdministratorsType):Promise<void> => {
+        data.image=file ;
         setLoading(true);
         const res = await apiCall("/api/v1/administrators/add", "post", data, {
             headers: {
@@ -27,8 +29,7 @@ const AdminAdministratorAdd = () => {
             },
         })
             .catch((err) => {
-               console.log(err);
-               
+                console.log(err);
             })
             .finally(() => setLoading(false));
         if (res) {
@@ -41,56 +42,61 @@ const AdminAdministratorAdd = () => {
         console.log(res);
     };
 
-    const handleFilename = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    const handleFilename = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         console.log(files);
-        
         if (files && files.length > 0) {
-          setFilename(files[0].name);
-          setFile(files[0])
+            setFilename(files[0].name);
+            setFile(files[0]);
         } else {
-          setFilename("");
+            setFilename("");
         }
-    }
+    };
+
     useEffect(() => {
+        console.log("hi");
+
         if (filename.length > 25) {
             setFilename(filename.slice(0, 25) + "....");
         }
     }, [filename]);
 
+
     return (
         <div>
             <form className="p-5" onSubmit={handleSubmit(submit)}>
-                <div className="col-span-full">
-                    <span>Profile image</span>
-                    <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 bg-white">
-                        <div className="text-center">
-                            <div className="mt-4 flex text-sm leading-6 text-gray-600 flex-col sm:flex-row">
-                                <label
-                                    htmlFor="image"
-                                    className="cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                                >
-                                    {filename ? (
-                                        <p>{filename}</p>
-                                    ) : (
-                                        <span>Upload a file</span>
-                                    )}
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        name="image"
-                                        className="hidden cursor-pointer"
-                                        onChange={handleFilename}
-                                    />
-                                </label>
-                                <p className="pl-1">or drag and drop</p>
-                            </div>
-                            <p className="text-xs leading-5 text-gray-600">
-                                PNG, JPG, GIF up to 10MB
-                            </p>
+            <div className="col-span-full">
+                <span>Profile Picture</span>
+                <div className="mt-2 flex justify-center rounded-lg border border-dashed border-indigo-600 px-6 py-10 bg-white">
+                    <div className="text-center">
+                        <div className="mt-4 flex text-sm leading-6 text-gray-600 flex-col">
+                            <label
+                                htmlFor="image"
+                                className="flex relative flex-col cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+                            >
+                                {filename ? (
+                                    <p>{filename}</p>
+                                ) : (
+                                    <span>Upload a file</span>
+                                )}
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    ref={fileInputRef}
+                                    contentEditable={false}
+                                    className="cursor-pointer opacity-0 absolute top-0 "
+                                    onChange={handleFilename}
+                                />
+                            </label>
+                            <p className="pl-1">or drag and drop</p>
                         </div>
+                        <p className="text-xs leading-5 text-gray-600">
+                            PNG, JPG, GIF up to 10MB
+                        </p>
                     </div>
                 </div>
+            </div>
                 <div className="space-y-12">
                     <div className="border-b border-gray-900/10 pb-12">
                         <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -121,14 +127,16 @@ const AdminAdministratorAdd = () => {
                                                 }
                                                 className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                             >
-                                                {field.options?.map((option) => (
-                                                    <option
-                                                        key={option.value}
-                                                        value={option.value}
-                                                    >
-                                                        {option.label}
-                                                    </option>
-                                                ))}
+                                                {field.options?.map(
+                                                    (option) => (
+                                                        <option
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </option>
+                                                    )
+                                                )}
                                             </select>
                                         ) : (
                                             <input
@@ -181,3 +189,4 @@ const AdminAdministratorAdd = () => {
 };
 
 export default AdminAdministratorAdd;
+

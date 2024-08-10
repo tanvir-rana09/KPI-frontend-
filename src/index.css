@@ -19,41 +19,10 @@
     }
 }
 
-/* Custom scrollbar styling for .overflowAuto class */
-
-/* For WebKit browsers (Chrome, Safari, Edge) */
-.overflowAuto::-webkit-scrollbar {
-    width: 8px; /* Width of the vertical scrollbar */
-    height: 8px; /* Height of the horizontal scrollbar */
-}
-
-.overflowAuto::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Background of the scrollbar track */
-}
-
-.overflowAuto::-webkit-scrollbar-thumb {
-    background: #888; /* Color of the scrollbar thumb */
-    border-radius: 10px; /* Rounded corners of the scrollbar thumb */
-}
-
-.overflowAuto::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color of the scrollbar thumb when hovered */
-}
-
-/* For Firefox */
-.overflowAuto {
-    scrollbar-width: thin; /* Thin scrollbar */
-    scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
-}
-
 
 body {
-    margin: 0;
-    padding: 0;
     overflow-x: hidden; /* Prevent horizontal scroll on the overflowAuto */
 }
-
-
 
 ::-webkit-scrollbar {
     width: 8px; /* Width of the scrollbar */
@@ -81,12 +50,17 @@ body {
 
 
 
-.ant-table-column-title,
+.ant-table-column-title {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
 .ant-table-cell {
     text-align: center;
 }
-
-
 .parent:hover .child {
     transform: rotate(180deg);
 }
